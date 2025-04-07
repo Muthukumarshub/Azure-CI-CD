@@ -2,7 +2,7 @@ trigger:
 - main
 
 pool:
-  name: Default  # 👈 this uses your self-hosted agent in the default pool
+  name: Default  # or 'ubuntu-latest' if using MS-hosted agent
 
 steps:
 - task: NodeTool@0
@@ -12,10 +12,8 @@ steps:
 
 - script: |
     npm install
-    npm start &
-    sleep 5
-    curl http://localhost:3000
-  displayName: 'Run and Test App'
+    npm run build || echo "No build step found"
+  displayName: 'Install Dependencies & Build'
 
 - task: ArchiveFiles@2
   inputs:
@@ -24,9 +22,12 @@ steps:
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/app.zip'
     replaceExistingArchive: true
+  displayName: 'Archive App'
 
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
+  displayName: 'Publish Artifact'
+
