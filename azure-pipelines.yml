@@ -37,7 +37,4 @@ steps:
     azureSubscription: 'Azure for Students(afcacce8-8c74-4c25-ac4d-3482a6a18b19)'
     appType: 'webApp'
     WebAppName: 'cubeAI'
-    deployToSlotOrASE: true
-    ResourceGroupName: 'cubeAI_group'
-    SlotName: 'production'
-    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    packageForLinux: '$(Build.ArtifactStagingDirectory)/app.zip'
